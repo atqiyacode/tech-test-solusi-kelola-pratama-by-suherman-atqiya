@@ -22,6 +22,7 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Dropdown from 'primevue/dropdown';
+import ScrollPanel from 'primevue/scrollpanel';
 
 
 const app = createApp(App);
@@ -35,6 +36,7 @@ app.component('p-card', Card);
 app.component('p-input-text', InputText);
 app.component('p-password', Password);
 app.component('p-dropdown', Dropdown);
+app.component('p-scroll-panel', ScrollPanel);
 
 
 app.use(VueToast);

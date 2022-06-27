@@ -92,7 +92,12 @@ export default {
     ...mapActions("order", ["GET_ORDERS"]),
 
     showDetail() {
-      console.log("show detail");
+      if (!this.v$.form.$invalid) {
+        this.$router.push({
+          name: "order-detail",
+          params: { id: this.form.orderNumber },
+        });
+      }
     },
   },
 };

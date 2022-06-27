@@ -30,6 +30,16 @@ const routes = [{
         component: () =>
             import ('../views/Order/Index.vue')
     },
+    {
+        path: '/order/:id',
+        name: 'order-detail',
+        meta: {
+            title: 'Order Detail | Tech Test',
+            requiresAuth: true
+        },
+        component: () =>
+            import ('../views/Order/Detail.vue')
+    },
     // guest
     {
         path: '/login',
