@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import router from '../router/index';
 
 import auth from './auth/authentication'
+import order from './Order'
 
 export default createStore({
     state: {
@@ -41,5 +42,6 @@ export default createStore({
     },
     modules: {
         auth,
+        order
     }
 })

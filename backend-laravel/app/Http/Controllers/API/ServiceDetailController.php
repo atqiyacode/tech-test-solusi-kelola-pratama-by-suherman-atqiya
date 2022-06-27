@@ -3,24 +3,25 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\UpdateOrderRequest;
-use Illuminate\Http\Request;
+use App\Models\ServiceDetail;
+use App\Http\Requests\StoreServiceDetailRequest;
+use App\Http\Requests\UpdateServiceDetailRequest;
+use App\Http\Resources\ServiceDetailResource;
 
-class OrderController extends Controller
+class ServiceDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $data = Order::all();
+        $data = ServiceDetail::active()->parent()->with(['children'])
+            ->get();
         return response()->json([
             'status' => trans('messages.response.success'),
-            'data' => $data,
+            'data' => ServiceDetailResource::collection($data),
         ], 200);
     }
 
@@ -37,10 +38,10 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreOrderRequest  $request
+     * @param  \App\Http\Requests\StoreServiceDetailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreOrderRequest $request)
+    public function store(StoreServiceDetailRequest $request)
     {
         //
     }
@@ -48,24 +49,27 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\ServiceDetail  $serviceDetail
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($id)
     {
+        $data = ServiceDetail::active()->parent()->with(['children'])
+            ->where('id', $id)
+            ->firstOrFail();
         return response()->json([
             'status' => trans('messages.response.success'),
-            'data' => $order,
+            'data' => new ServiceDetailResource($data),
         ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\ServiceDetail  $serviceDetail
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(ServiceDetail $serviceDetail)
     {
         //
     }
@@ -73,11 +77,11 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateOrderRequest  $request
-     * @param  \App\Models\Order  $order
+     * @param  \App\Http\Requests\UpdateServiceDetailRequest  $request
+     * @param  \App\Models\ServiceDetail  $serviceDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(UpdateServiceDetailRequest $request, ServiceDetail $serviceDetail)
     {
         //
     }
@@ -85,10 +89,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\ServiceDetail  $serviceDetail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(ServiceDetail $serviceDetail)
     {
         //
     }

@@ -20,6 +20,16 @@ const routes = [{
             requiresAuth: true
         }
     },
+    {
+        path: '/order',
+        name: 'order',
+        meta: {
+            title: 'Order | Tech Test',
+            requiresAuth: true
+        },
+        component: () =>
+            import ('../views/Order/Index.vue')
+    },
     // guest
     {
         path: '/login',

@@ -39,6 +39,11 @@
               class="p-button-sm p-button-info"
               icon="pi pi-list"
               label="Order List"
+              @click="
+                $router.push({
+                  name: 'order',
+                })
+              "
             />
           </div>
         </template>
