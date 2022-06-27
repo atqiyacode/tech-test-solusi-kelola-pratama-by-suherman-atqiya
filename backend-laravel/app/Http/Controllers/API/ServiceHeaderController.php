@@ -18,12 +18,14 @@ class ServiceHeaderController extends Controller
      */
     public function index(Request $request)
     {
-        $data = ServiceHeader::active()->with(['details'])
-            ->withCount(['details'])
-            ->paginate($request->per_page ?? 10)
-            ->appends(request()->query());
+        $data = ServiceHeader::active()->with(['details', 'logoIcon'])
+            ->withCount(['details', 'logoIcon'])
+            ->where('service_name', 'LIKE', '%' . $request->keyword . '%')
+            ->limit($request->limit ?? 10)
+            ->get();
         return response()->json([
             'status' => trans('messages.response.success'),
+            'total' => $data->count(),
             'data' => ServiceHeaderResource::collection($data),
         ], 200);
     }

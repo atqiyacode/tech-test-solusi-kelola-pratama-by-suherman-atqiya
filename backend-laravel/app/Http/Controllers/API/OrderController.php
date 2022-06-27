@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\OrderResource;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -17,10 +18,13 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Order::all();
+        $data = Order::where('number', 'LIKE', '%' . $request->keyword . '%')
+            ->limit($request->limit ?? 10)
+            ->get();
         return response()->json([
             'status' => trans('messages.response.success'),
-            'data' => $data,
+            'total' => $data->count(),
+            'data' => OrderResource::collection($data),
         ], 200);
     }
 
@@ -55,7 +59,7 @@ class OrderController extends Controller
     {
         return response()->json([
             'status' => trans('messages.response.success'),
-            'data' => $order,
+            'data' => new OrderResource($order),
         ], 200);
     }
 

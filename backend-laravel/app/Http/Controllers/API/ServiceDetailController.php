@@ -7,6 +7,7 @@ use App\Models\ServiceDetail;
 use App\Http\Requests\StoreServiceDetailRequest;
 use App\Http\Requests\UpdateServiceDetailRequest;
 use App\Http\Resources\ServiceDetailResource;
+use Illuminate\Http\Request;
 
 class ServiceDetailController extends Controller
 {
@@ -15,9 +16,11 @@ class ServiceDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = ServiceDetail::active()->parent()->with(['children'])
+            ->where('description', 'LIKE', '%' . $request->keyword . '%')
+            ->limit($request->limit ?? 10)
             ->get();
         return response()->json([
             'status' => trans('messages.response.success'),
