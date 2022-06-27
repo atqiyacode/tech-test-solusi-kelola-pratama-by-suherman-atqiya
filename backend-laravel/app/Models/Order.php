@@ -13,4 +13,10 @@ class Order extends Model
     protected $fillable = [
         'number',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        "deleted_at",
+    ];
 }

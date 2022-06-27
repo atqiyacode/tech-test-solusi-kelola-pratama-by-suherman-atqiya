@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Order::all();
+        $data = Order::simplePaginate(10);
         return response()->json([
             'status' => trans('messages.response.success'),
             'data' => $data,
