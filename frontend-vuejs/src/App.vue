@@ -1,9 +1,10 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <p-confirm-dialog></p-confirm-dialog>
+  <div id="app">
+    <div class="container">
+      <router-view />
+    </div>
   </div>
-  <router-view/>
 </template>
 
 <style>
@@ -12,7 +13,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  background: #1c6dbe;
 }
 
 #nav {

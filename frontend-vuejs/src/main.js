@@ -16,12 +16,26 @@ import 'primeicons/primeicons.css';
 
 import 'vue-toast-notification/dist/theme-sugar.css';
 
+import Button from 'primevue/button';
+import Card from 'primevue/card';
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import ConfirmDialog from 'primevue/confirmdialog';
+import Dropdown from 'primevue/dropdown';
+
 
 const app = createApp(App);
 
 app.config.productionTip = false
 
 app.use(PrimeVue, { ripple: true });
+app.component('p-confirm-dialog', ConfirmDialog);
+app.component('p-button', Button);
+app.component('p-card', Card);
+app.component('p-input-text', InputText);
+app.component('p-password', Password);
+app.component('p-dropdown', Dropdown);
+
 
 app.use(VueToast);
 app.use(ConfirmationService);
