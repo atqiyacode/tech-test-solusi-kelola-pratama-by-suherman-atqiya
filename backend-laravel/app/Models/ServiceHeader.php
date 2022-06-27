@@ -21,6 +21,10 @@ class ServiceHeader extends Model
         'updated_by',
     ];
 
+    public function logoIcon()
+    {
+        return $this->hasOne(ServiceHeaderIcon::class, 'service_header_id', 'id');
+    }
 
     public function details()
     {

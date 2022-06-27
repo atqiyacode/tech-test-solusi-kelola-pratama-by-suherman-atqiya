@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ServiceHeaderResource extends JsonResource
+class OrderServiceHeaderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,13 +18,7 @@ class ServiceHeaderResource extends JsonResource
             'id' => $this->id,
             'service_name' => $this->service_name,
             'mandatory' => $this->mandatory,
-            'package_id' => $this->package_id,
-            'debitur_type_id' => $this->debitur_type_id,
-            'service_price_amount' => $this->service_price_amount,
-            'service_discount_amount' => $this->service_discount_amount,
-            'details_count' => $this->details_count,
-            'details' => ServiceDetailResource::collection($this->details),
-            'logoIcon' => $this->logoIcon,
+            'icon' => $this->logoIcon,
         ];
     }
 }
