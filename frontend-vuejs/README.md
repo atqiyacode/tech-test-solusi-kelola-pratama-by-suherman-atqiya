@@ -22,5 +22,11 @@ npm run build
 npm run lint
 ```
 
+### Setup API url
+
+- Open .env File
+- VUE_APP_KEY='set your app key'
+- VUE_APP_API='url of Api (Laravel)'
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
