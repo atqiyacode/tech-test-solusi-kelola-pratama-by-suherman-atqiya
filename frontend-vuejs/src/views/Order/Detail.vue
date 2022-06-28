@@ -7,33 +7,16 @@
           : 'col-lg-6 offset-lg-3 col-md-8 offset-md-2'
       "
     >
-      <p-card class="px-3" v-if="detailItem != null">
-        <template #title>
-          <div class="text-center">{{ serviceName }}</div>
-        </template>
-        <template #content>
-          <p-scroll-panel style="width: 100%; height: 600px" class="custombar1">
-            <p-order-form :detailItem="detailItem" />
-          </p-scroll-panel>
-        </template>
-        <template #footer>
-          <div class="d-flex justify-content-between">
-            <p-button
-              icon="pi pi-times"
-              label="Batal"
-              class="p-button-secondary p-button-sm"
-              @click="onClear"
-            />
-            <p-button
-              icon="pi pi-check"
-              label="Simpan"
-              class="p-button-sm"
-              @click="changeValueMainItem(formActive)"
-            />
-          </div>
-        </template>
-      </p-card>
-      <p-card v-else>
+      <p-order-form
+        :service="service"
+        :detailItem="detailItem"
+        :formActive="formActive"
+        @clear="onClear"
+        @changeValue="changeValueMainItem($event)"
+        v-if="detailItem != null"
+      />
+
+      <p-card class="mt-3" v-else>
         <template #title>
           <div class="text-center">List Pengerjaan Service</div>
         </template>
@@ -119,7 +102,7 @@ export default {
   data() {
     return {
       detailItem: null,
-      serviceName: "",
+      service: null,
       form: [],
       formActive: null,
       enableSubmit: true,
@@ -148,11 +131,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions("order", ["GET_DETAIL"]),
+    ...mapActions("order", ["GET_DETAIL", "SAVE_RESULT"]),
 
     onServiceDetail(item) {
       this.detailItem = item.json;
-      this.serviceName = item.service_id.service_name;
+      this.service = item.service_id;
       this.formActive = item.service_id.id;
     },
 
@@ -173,7 +156,7 @@ export default {
       this.checkValue();
       this.onClear();
       this.$toast.open({
-        message: this.serviceName,
+        message: this.service.service_name,
         type: "success",
         position: "top",
         duration: 2000,
@@ -181,16 +164,25 @@ export default {
     },
 
     finishOrder() {
-      this.$toast.open({
-        message: "Finish Order",
-        type: "success",
-        position: "top",
-        duration: 2000,
-      });
+      this.SAVE_RESULT({
+        order_id: this.$route.params.id,
+        result: this.detailData,
+      })
+        .then(() => {
+          this.$toast.open({
+            message: "Congratulation... You Finish the Task",
+            type: "success",
+            position: "top",
+            duration: 2000,
+          });
 
-      this.$router.push({
-        name: "home",
-      });
+          this.$router.push({
+            name: "home",
+          });
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
     },
   },
 };
@@ -208,13 +200,13 @@ export default {
 }
 
 .p-scrollpanel.custombar1 .p-scrollpanel-bar {
-  background-color: var(--primary-color);
+  background-color: #459ae4;
   opacity: 1;
   transition: background-color 0.2s;
 }
 
 .p-scrollpanel.custombar1 .p-scrollpanel-bar:hover {
-  background-color: #007ad9;
+  background-color: #459ae4;
 }
 
 .p-scrollpanel.custombar2 .p-scrollpanel-wrapper {

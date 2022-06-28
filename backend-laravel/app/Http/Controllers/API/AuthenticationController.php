@@ -22,7 +22,12 @@ class AuthenticationController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json([
+                'message' => 'Hi ' . $user->name . ', welcome to home',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'userSession' => $user,
+            ]);
     }
 
     public function login(LoginRequest $request)
@@ -36,7 +41,12 @@ class AuthenticationController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['message' => 'Hi ' . $user->name . ', welcome to home', 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json([
+                'message' => 'Hi ' . $user->name . ', welcome to home',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'userSession' => $user,
+            ]);
     }
 
     // method for user logout and delete token

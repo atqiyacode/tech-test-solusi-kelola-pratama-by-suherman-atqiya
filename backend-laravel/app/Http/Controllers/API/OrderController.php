@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderSimpleResource;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -24,7 +25,7 @@ class OrderController extends Controller
         return response()->json([
             'status' => trans('messages.response.success'),
             'total' => $data->count(),
-            'data' => OrderResource::collection($data),
+            'data' => OrderSimpleResource::collection($data),
         ], 200);
     }
 

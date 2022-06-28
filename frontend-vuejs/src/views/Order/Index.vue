@@ -16,6 +16,7 @@
               placeholder="Select Order Number"
               :filter="true"
               :showClear="form.orderNumber ? true : false"
+              @filter="filterData"
               @blur="v$.form.orderNumber.$touch()"
               :class="v$.form.orderNumber.$error ? 'p-invalid' : ''"
             >
@@ -33,7 +34,7 @@
         <template #footer>
           <div class="d-flex justify-content-between">
             <p-button
-              label="Back"
+              label="Home"
               @click="$router.go(-1)"
               icon="pi pi-home"
               iconPos="left"
@@ -45,7 +46,7 @@
               class="p-button-sm"
               icon="pi pi-arrow-right"
               iconPos="right"
-              label="Next"
+              label="Process"
               @click="showDetail()"
             />
           </div>
@@ -90,6 +91,13 @@ export default {
   },
   methods: {
     ...mapActions("order", ["GET_ORDERS"]),
+
+    filterData(e) {
+      let payload = e.value;
+      this.GET_ORDERS({
+        keyword: payload,
+      });
+    },
 
     showDetail() {
       if (!this.v$.form.$invalid) {

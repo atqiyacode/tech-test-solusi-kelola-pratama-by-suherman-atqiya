@@ -1,5 +1,4 @@
 import $axios from '@/config/axios.js';
-// import store from './index.js';
 
 const state = () => ({
     mainData: [],
@@ -28,9 +27,11 @@ const mutations = {
 }
 
 const actions = {
-    GET_ORDERS({ commit }) {
+    GET_ORDERS({ commit }, payload) {
         return new Promise((resolve, reject) => {
-            $axios.get('order')
+            $axios.get('order', {
+                    params: payload
+                })
                 .then((response) => {
                     let data = response.data;
                     if (data) {
@@ -67,6 +68,23 @@ const actions = {
     GET_DETAIL_SERVICE({ commit }, payload) {
         return new Promise((resolve, reject) => {
             $axios.get(`serviceHeader/${payload}`)
+                .then((response) => {
+                    let data = response.data;
+                    if (data) {
+                        console.log(data);
+                    }
+                    resolve(data);
+                })
+                .catch((error) => {
+                    const errorText = error.response.data
+                    commit('SET_ERRORS', JSON.stringify(errorText), { root: true });
+                    reject(errorText.message);
+                });
+        });
+    },
+    SAVE_RESULT({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            $axios.post(`orderServiceResult`, payload)
                 .then((response) => {
                     let data = response.data;
                     if (data) {

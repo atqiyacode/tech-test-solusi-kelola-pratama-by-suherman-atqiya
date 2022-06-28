@@ -53,6 +53,7 @@ const actions = {
                     let data = response.data;
                     if (data.access_token) {
                         localStorage.setItem('accessToken', data.access_token);
+                        localStorage.setItem('userSession', JSON.stringify(data.userSession));
                     }
                     resolve(data);
                 })
@@ -72,6 +73,7 @@ const actions = {
                 let data = response.data;
                 if (data.access_token) {
                     localStorage.setItem('accessToken', data.access_token);
+                    localStorage.setItem('userSession', JSON.stringify(data.userSession));
                 }
                 resolve(response.data);
             }).catch((error) => {

@@ -26,6 +26,20 @@
               >
             </li>
           </ul>
+          <p-divider></p-divider>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-center">
+              <span class="fw-bold"> Current User Account </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span class="text-muted">Name</span>
+              <span class="fw-bold">{{ userSession.name }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span class="text-muted">Email</span>
+              <span class="fw-bold">{{ userSession.email }}</span>
+            </li>
+          </ul>
         </template>
         <template #footer>
           <div class="d-flex justify-content-between">
@@ -38,7 +52,7 @@
             <p-button
               class="p-button-sm p-button-info"
               icon="pi pi-list"
-              label="Order List"
+              label="Order Process"
               @click="
                 $router.push({
                   name: 'order',
@@ -57,8 +71,10 @@ import { useConfirm } from "primevue/useconfirm";
 export default {
   setup() {
     const confirm = useConfirm();
+    const userSession = JSON.parse(localStorage.getItem("userSession"));
     return {
       confirm,
+      userSession,
     };
   },
   computed: {

@@ -23,6 +23,25 @@ import Password from 'primevue/password';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Dropdown from 'primevue/dropdown';
 import ScrollPanel from 'primevue/scrollpanel';
+import Avatar from 'primevue/avatar';
+import FileUpload from 'primevue/fileupload';
+import Divider from 'primevue/divider';
+import Checkbox from 'primevue/checkbox';
+import Listbox from 'primevue/listbox';
+
+// Import FilePond
+import vueFilePond from 'vue-filepond';
+
+// Import plugins
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js';
+
+// Import styles
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+
+// Create FilePond component
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 
 const app = createApp(App);
@@ -37,6 +56,12 @@ app.component('p-input-text', InputText);
 app.component('p-password', Password);
 app.component('p-dropdown', Dropdown);
 app.component('p-scroll-panel', ScrollPanel);
+app.component('p-avatar', Avatar);
+app.component('p-file-upload', FileUpload);
+app.component('p-divider', Divider);
+app.component('p-checkbox', Checkbox);
+app.component('p-listbox', Listbox);
+app.component('file-pond', FilePond);
 
 
 app.use(VueToast);
