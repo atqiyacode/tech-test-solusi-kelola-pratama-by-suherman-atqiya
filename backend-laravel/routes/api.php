@@ -32,8 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'upload'], function () {
         Route::post('image', [TemporaryFileController::class, 'image']);
-        Route::post('video', [TemporaryFileController::class, 'video']);
-        Route::post('file', [TemporaryFileController::class, 'file']);
+        Route::post('document', [TemporaryFileController::class, 'document']);
     });
 
     // logout

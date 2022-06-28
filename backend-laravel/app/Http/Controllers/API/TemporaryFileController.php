@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\TemporaryFile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Str;
 use Image;
+use Storage;
 
 class TemporaryFileController extends Controller
 {
@@ -28,7 +30,7 @@ class TemporaryFileController extends Controller
 
         $file = $request->file('image');
 
-        $asset = $this->upload_temp($file);
+        $asset = $this->upload_image_temp($file);
 
         if ($asset) {
             return response()->json([
@@ -43,38 +45,15 @@ class TemporaryFileController extends Controller
         }
     }
 
-    public function video(Request $request)
+    public function document(Request $request)
     {
         $request->validate([
-            'image' => 'required|mimes:video/mp4,video/x-m4v,video/*',
+            'document' => 'required|file|mimes:pdf,xls,xlsx,txt|max:2048',
         ]);
 
-        $file = $request->file('video');
+        $file = $request->file('document');
 
-        $asset = $this->upload_video_temp($file);
-
-        if ($asset) {
-            return response()->json([
-                'status' => trans('messages.response.success'),
-                'data' => $asset
-            ], 201);
-        } else {
-            return response()->json([
-                'status' => trans('messages.response.error'),
-                'data' => $asset
-            ], 400);
-        }
-    }
-
-    public function file(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $file = $request->file('image');
-
-        $asset = $this->upload_temp($file);
+        $asset = $this->upload_document_temp($file);
 
         if ($asset) {
             return response()->json([
@@ -90,9 +69,9 @@ class TemporaryFileController extends Controller
     }
 
 
-    public function upload_temp($file)
+    public function upload_image_temp($file)
     {
-        $folder = uniqid() . '-' . now()->timestamp;
+        $folder = Carbon::now()->format('d-m-Y (H.i.s A)');
 
         if (!File::isDirectory($this->path . '/' . $folder)) {
             File::makeDirectory($this->path . '/' . $folder, 0775, true, true);
@@ -125,30 +104,17 @@ class TemporaryFileController extends Controller
         return $tempFile;
     }
 
-    public function upload_video_temp($file)
+    public function upload_document_temp($file)
     {
-        $folder = uniqid() . '-' . now()->timestamp;
+        $folder = Carbon::now()->format('d-m-Y (H.i.s A)');
 
         if (!File::isDirectory($this->path . '/' . $folder)) {
             File::makeDirectory($this->path . '/' . $folder, 0775, true, true);
         }
 
         $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-        Image::make($file)->save($this->path . '/' . $folder . '/' . $fileName);
 
-        foreach ($this->dimensions as $row) {
-            $canvas = Image::canvas($row, $row);
-            $resizeImage  = Image::make($file)->resize($row, $row, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            if (!File::isDirectory($this->path . '/' . $folder . '/' . $row)) {
-                File::makeDirectory($this->path . '/' . $folder . '/' . $row, 0775, true, true);
-            }
-
-            $canvas->insert($resizeImage, 'center');
-            $canvas->save($this->path . '/' . $folder . '/' . $row . '/' . $fileName);
-        }
+        $file->move($this->path . '/' . $folder, $fileName);
 
         $tempFile = new TemporaryFile();
         $tempFile->folder = $folder;
